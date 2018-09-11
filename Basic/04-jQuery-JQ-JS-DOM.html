@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        #box{
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+        }
+    </style>
+    <script src="./jquery-1.8.3.min.js"></script>
+</head>
+<body>
+    <div id="box"></div>
+    <div></div>
+    <div></div>
+
+    <hr>
+    <img src="./imgs/0.jpg" width="100">
+
+    <script>
+
+    var box = document.getElementById('box');
+    var $box = $('#box');
+
+    console.log('JS DOM: ', box);
+    console.log('JQ DOM: ', $box);
+
+    box.style.backgroundColor = '#ccc';
+    $box.css('background-color', '#f90');
+
+    $('img').attr('width', '600');
+
+    // JQDOM 与 JSDOM的转换
+
+    // JSDOM ---- > JQDOM
+    $(box).css('background-color', '#09f');
+
+    // JQDOM ---- > JSDOM
+    console.log('JQDOM集合的长度: '+ $('div').length);
+    console.log($('div')[0]);
+    console.log($('div').get(0));
+    $('div').get(0).style.backgroundColor = '#ccc';
+    </script>
+</body>
+</html>

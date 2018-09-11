@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="./jquery-1.8.3.min.js"></script>
+    <script>
+        //onload
+        window.onload = function() {
+            $('h1').css('color', '#CAE');
+        }
+
+        // JQ标准入口
+        $(document).ready(function(){
+            $('h1').css('font-size', '200px');
+        });
+        // JQ 简写入口
+        $(function(){
+            $('h1').css('background-color', '#CEA');
+        });
+    </script>
+</head>
+<body>
+ <h1>HELLO WORLD</h1>
+
+</body>
+</html>
