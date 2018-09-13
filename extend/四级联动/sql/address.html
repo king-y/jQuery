@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="./jquery-1.8.3.min.js"></script>
+</head>
+<body>
+    <select id="province">
+        <option value="">-请选择-</option>
+    </select>
+    <select id="city">
+        <option value="">-请选择-</option>
+    </select>
+    <select id="area">
+        <option value="">-请选择-</option>
+    </select>
+    <select id="town">
+        <option value="">-请选择-</option>
+    </select>
+    <script>
+
+        //通过IP获取物理地址---待查
+
+            //省/直辖市
+            $('#province').click(function(){
+                $.ajax({
+                    type : 'get',
+                    url : './1.php',
+                    data : 'level=1',
+                    dataType:'json',
+                    success : function(data) {
+                        for (var i = 0; i < data.length; i++) {
+                            $('<option value='+data[i]['id']+'>'+data[i]['name']+'</option>').appendTo($('#province'));
+                        }
+                    },
+                    error : function() {
+                        alert('AJAX执行失败');
+                    }
+                });
+            });
+
+
+
+            //市/区
+            $('#province').change(function(){
+                //获取id
+                var i= $('#province').val();
+                $.ajax({
+                        type : 'get',
+                        url : './2.php',
+                        data : {'upid':i},
+                        dataType:'json',
+                        success : function(data) {
+                                $('#city option').remove('option');
+                                for (var i = 0; i <data.length; i++) {
+                                     $('<option value='+data[i]['id']+'>'+data[i]['name']+'</option>').appendTo($('#city'));
+                                }
+                        },
+                        error : function() {
+                            alert('AJAX执行失败');
+                        }
+                });
+                $('#area').css('display','none');
+                $('#town').css('display','none');
+            });
+
+            //区/县
+            $('#city').change(function() {
+                var n = $('#city').val();
+                $.ajax({
+                        type : 'get',
+                        url : './3.php',
+                        data : {'upid':n},
+                        dataType:'json',
+                        success : function(data) {
+                            if (data!='') {
+                                $('#area').show();
+                                $('#town').hide();
+                                $('#area option').remove('option');
+                                for (var i = 0; i <data.length; i++) {
+                                     $('<option value='+data[i]['id']+'>'+data[i]['name']+'</option>').appendTo($('#area'));
+                                }
+                            }else{
+                                $('#area').css('display','none');
+                                $('#town').css('display','none');
+                            }
+                        },
+                        error : function() {
+                            alert('AJAX执行失败');
+                        }
+                });
+            });
+
+            //城镇/街道
+             $('#area').change(function() {
+                var m = $('#area').val();
+                $.ajax({
+                        type : 'get',
+                        url : './4.php',
+                        data : {'upid':m},
+                        dataType:'json',
+                        success : function(data) {
+                            if (data!='') {
+                                $('#town').css('display','');
+                                $('#town option').remove('option');
+                                for (var i = 0; i <data.length; i++) {
+                                     $('<option value='+data[i]['id']+'>'+data[i]['name']+'</option>').appendTo($('#town'));
+                                }
+                            }else{
+                                  $('#town').css('display','none');
+                            }
+                        },
+                        error : function() {
+                            alert('AJAX执行失败');
+                        }
+                });
+            });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery配送地址四级联动代码</title>
+<link rel="stylesheet" type="text/css" href="style/cssreset-min.css">
+<link rel="stylesheet" type="text/css" href="style/common.css">
+<style type="text/css">
+	.citys{
+		margin-bottom: 10px;
+	}
+	.citys p{
+		line-height: 28px;
+	}
+	.warning{
+		color: #c00;
+	}
+	.main a{
+		margin-right: 8px;
+		color: #369;
+	}
+</style>
+<script type="text/javascript" src="script/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="script/jquery.citys.js"></script>
+</head>
+<body>
+<div class="main">
+	<div id="demo3" class="citys">
+		<p>
+			<select name="province"></select>
+			<select name="city"></select>
+			<select name="area"></select>
+			<select name="town"></select>
+		</p>
+	</div>
+	<script type="text/javascript">
+		var $town = $('#demo3 select[name="town"]');
+		var townFormat = function(info){
+			$town.hide().empty();
+			if(info['code']%1e4&&info['code']<7e5){	//是否为“区”且不是港澳台地区
+				$.ajax({
+					url:'http://localhost/JsWork/JS15/extend/json/script/area/'+info['code']+'.json',
+					dataType:'json',
+					success:function(town){
+						console.log(info['code']);
+						$town.show();
+						for(i in town){
+								$town.append('<option value="'+i+'">'+town[i]+'</option>');
+						}
+					}
+				});
+			}
+		};
+		$('#demo3').citys({
+			province:'福建',
+			city:'厦门',
+			area:'思明',
+			onChange:function(info){
+				townFormat(info);
+			}
+		},function(api){
+			var info = api.getInfo();
+			townFormat(info);
+		});
+	</script>
+
+</div>
+</body>
+</html>
