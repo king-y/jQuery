@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>事件</title>
+    <style type="text/css">
+        #list li{
+            width: 500px;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #000;
+            font-size: 25px;
+            cursor: pointer;
+        }
+        div{
+            position: absolute;
+            top: 20px;
+            left:50px;
+            border-radius: 50%;
+        }
+        #box1{ width: 500px; height: 500px; background-color: #963;}
+        #box2{ width: 400px; height: 400px; background-color: #693;}
+        #box3{ width: 300px; height: 300px; background-color: #369;}
+        #box4{ width: 200px; height: 200px; background-color: #639;}
+        #box5{ width: 100px; height: 100px; background-color: #f00;}
+    </style>
+    <script src="./jquery-1.8.3.min.js"></script>
+</head>
+<body>
+    <button id="btn">解绑</button>
+    <button id="down">戳我下载</button>
+    <button id="addbtn">添加一行li</button>
+    <hr>
+
+    <span id="list">
+        <li>悯农  -- 李绅(唐)</li>
+        <li>锄禾日当午</li>
+        <li>汗滴和下土</li>
+        <li>谁知盘中餐</li>
+        <li>莉莉真辛苦</li>
+    </span>
+
+    <br>
+
+    <a href="http://www.acfun.cn" id="ac">ACFUN</a>
+    <br>
+    <br>
+    <br>
+    <a href="javascript:void(0)">死链(无效链接)</a>
+
+    <hr>
+
+
+    <div id="box1" style="margin-left: 530px;">
+        <div id="box2">
+            <div id="box3">
+                <div id="box4">
+                    <div id="box5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // 简写
+    $('#list li').click(function(){
+        console.log($(this).html());
+    });
+
+    // 标准绑定方式  bind() ---> on()
+    $('#list li').bind('click', function (){
+        alert($(this).html());
+    });
+
+    // 多次绑定
+    $('#list li').bind({
+        'mouseover' : function () {
+            $(this).css('background-color', '#ccc');
+        },
+        'mouseout' : function () {
+            $(this).css('background-color', '');
+        },
+    });
+
+    // 一次性事件  one()
+    $('#down').one('click', function (){
+        alert('你是个好人,再见!');
+    });
+
+    // 解绑
+    $('#btn').click(function(){
+        // $('#list li').unbind('mouseout');
+        $('#list li').unbind();
+    });
+
+    // 添加
+    $('#addbtn').click(function (){
+        $('<li>啊,这是一首好湿!!!</li>').appendTo('#list');
+    });
+
+    // 事件委派
+    // $('#list li').live({
+    //     'mouseover' : function () {
+    //         $(this).css('background-color', '#f90');
+    //     },
+    //     'mouseout' : function () {
+    //         $(this).css('background-color', '');
+    //     },
+    // });
+
+    // on()
+    $(document).on('mouseover', '#list li', function (){
+        $(this).css('background-color', '#f00');
+    }).on('mouseout', '#list li', function (){
+        $(this).css('background-color', '');
+    });
+
+    // 事件的自动触发,相当于点击
+    // $('#down').trigger('click');
+
+    $('#ac').click(function() {
+        return false;
+    });
+
+    // 给所有的靶子设置点击事件
+    $('div').click(function(){
+        $(this).css('background-color', '#000');
+        return false
+    });
+
+
+    </script>
+</body>
+</html>
